@@ -164,7 +164,7 @@ async function signup() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
-  const res = await fetch("https://your-backend-url.onrender.com/signup", {
+  const res = await fetch("https://movie-backend-oyrj.onrender.com/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
