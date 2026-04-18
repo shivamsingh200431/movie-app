@@ -1,3 +1,5 @@
+let currentUser = JSON.parse(localStorage.getItem("user"));
+
 async function searchMovie() {
   
   const input = document.getElementById("searchInput").value;
@@ -158,7 +160,6 @@ function updateFavCount() {
     "Favorites: " + favorites.length;
 }                 
 
-let currentUser = null;
 
 async function signup() {
   const username = document.getElementById("username").value;
@@ -190,9 +191,13 @@ async function login() {
 
   const data = await res.json();
 
-  if (data.user) {
-    currentUser = data.user;
-    alert("Logged in!");
+if (data.user) {
+  currentUser = data.user;
+
+  // 👇 THIS saves user in browser
+  localStorage.setItem("user", JSON.stringify(data.user));
+
+  alert("Logged in!");
   } else {
     alert(data.message);
   }
