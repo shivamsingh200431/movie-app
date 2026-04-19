@@ -1,3 +1,8 @@
+const BASE_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://movie-backend-oyrj.onrender.com";
+
 let currentUser = JSON.parse(localStorage.getItem("user"));
 
 async function searchMovie() {
