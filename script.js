@@ -99,12 +99,20 @@ function goBack() {
 
 
 async function addToFavorites(movie) {
-  await fetch("https://movie-backend-oyrj.onrender.com/addFavorite", {
+  if (!currentUser) {
+    alert("Please login first");
+    return;
+  }
+
+  await fetch(`${BASE_URL}/addFavorite`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(movie)
+    body: JSON.stringify({
+      movie: movie,
+      userId: currentUser._id
+    })
   });
 
   alert("Added to favorites!");
