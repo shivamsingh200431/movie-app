@@ -22,7 +22,7 @@ if (input.trim() === "") {
   resultsDiv.innerHTML = "<p>Loading...</p>";
 
   const apiKey = "b13ed654";
-  const url = `https://movie-backend-oyrj.onrender.com/search?q=${input}`;
+  const url = `${BASE_URL}/search?q=${input}`;
 
   try {
     const response = await fetch(url);
@@ -68,7 +68,7 @@ async function getMovieDetails(id) {
   resultsDiv.innerHTML = "<p>Loading details...</p>";
 
   const apiKey = "b13ed654";
-  const url = `https://movie-backend-oyrj.onrender.com/movie/${id}`;
+  const url = `${BASE_URL}/movie/${id}`;
 
   try {
     const response = await fetch(url);
@@ -109,18 +109,20 @@ async function addToFavorites(movie) {
     return;
   }
 
-  await fetch(`${BASE_URL}/addFavorite`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      movie: movie,
-      userId: currentUser._id
-    })
-  });
+  const res = await fetch(`${BASE_URL}/addFavorite`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    movie: movie,
+    userId: currentUser._id
+  })
+});
 
-  alert("Added to favorites!");
+const data = await res.json();
+
+alert(data.message);
 }
 
 
@@ -168,7 +170,7 @@ async function showFavorites() {
                 // Remove from Favorites
 
 async function removeFromFavorites(id) {
-  await fetch(`https://movie-backend-oyrj.onrender.com/removeFavorite/${id}`);
+  await fetch(`${BASE_URL}/removeFavorite/${id}`);
 
   showFavorites();
 }
@@ -186,7 +188,7 @@ async function signup() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
-  const res = await fetch("https://movie-backend-oyrj.onrender.com/signup", {
+  const res = await fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -202,7 +204,7 @@ async function login() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
-  const res = await fetch("https://movie-backend-oyrj.onrender.com/login", {
+  const res = await fetch(`${BASE_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -212,14 +214,18 @@ async function login() {
 
   const data = await res.json();
 
-if (data.user) {
-  currentUser = data.user;
-
-  // 👇 THIS saves user in browser
-  localStorage.setItem("user", JSON.stringify(data.user));
-
-  alert("Logged in!");
+  if (data.user) {
+    currentUser = data.user;
+    localStorage.setItem("user", JSON.stringify(data.user));
+    alert("Logged in!");
   } else {
     alert(data.message);
   }
+}
+
+ // logout 
+function logout() {
+  localStorage.removeItem("user");
+  currentUser = null;
+  alert("Logged out");
 }
