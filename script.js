@@ -127,9 +127,17 @@ async function addToFavorites(movie) {
                             // Show Favorites
 
 async function showFavorites() {
+  if (!currentUser) {
+    alert("Please login first");
+    return;
+  }
+
   const resultsDiv = document.getElementById("results");
 
-  const response = await fetch("https://movie-backend-oyrj.onrender.com/favorites");
+  const response = await fetch(
+    `${BASE_URL}/favorites?userId=${currentUser._id}`
+  );
+
   const favorites = await response.json();
 
   let html = "";
