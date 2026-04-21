@@ -34,20 +34,20 @@ button:hover {
 }
 
 #results {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
   padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .card {
   background: #1e1e1e;
   padding: 15px;
-  width: 180px;
   border-radius: 10px;
   transition: transform 0.2s;
-  flex: 0 0 auto;   /* 👈 IMPORTANT */
+  text-align: center;
 }
 
 .card:hover {
