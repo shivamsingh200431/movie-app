@@ -38,15 +38,19 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 20px;              /* spacing between cards */
+  padding: 20px;
+  max-width: 1200px;      /* limit width */
+  margin: 0 auto;         /* center container */
 }
 
 .card {
   background: #1e1e1e;
   padding: 15px;
-  margin: 15px;
   width: 180px;
   border-radius: 10px;
   transition: transform 0.2s;
+  text-align: center;
 }
 
 .card:hover {
@@ -54,5 +58,8 @@ button:hover {
 }
 
 .card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
   border-radius: 5px;
 }
