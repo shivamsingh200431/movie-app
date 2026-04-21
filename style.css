@@ -35,7 +35,7 @@ button:hover {
 
 #results {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
   padding: 20px;
   max-width: 1000px;
@@ -48,6 +48,9 @@ button:hover {
   border-radius: 10px;
   transition: transform 0.2s;
   text-align: center;
+
+  width: 180px;        /* 👈 FIX */
+  margin: 0 auto;      /* 👈 center inside grid */
 }
 
 .card:hover {
