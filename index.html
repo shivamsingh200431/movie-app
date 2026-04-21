@@ -10,12 +10,16 @@
 
   <h1>🎬 Movie Search App</h1>
 
-  <div class="auth">
+<div id="authSection">
   <input type="text" id="username" placeholder="Username">
   <input type="password" id="password" placeholder="Password">
 
   <button onclick="signup()">Signup</button>
   <button onclick="login()">Login</button>
+</div>
+
+<div id="userSection" style="display: none;">
+  <p id="welcomeText"></p>
   <button onclick="logout()">Logout</button>
 </div>
 

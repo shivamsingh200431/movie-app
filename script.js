@@ -224,11 +224,38 @@ async function login() {
   } else {
     alert(data.message);
   }
+  document.getElementById("authSection").style.display = "none";
+document.getElementById("userSection").style.display = "block";
+
+document.getElementById("welcomeText").innerText =
+  "Welcome, " + data.user.username;
 }
 
  // logout 
 function logout() {
   localStorage.removeItem("user");
   currentUser = null;
+  alert("Logged out");
+}
+
+function checkLogin() {
+  if (currentUser) {
+    document.getElementById("authSection").style.display = "none";
+    document.getElementById("userSection").style.display = "block";
+
+    document.getElementById("welcomeText").innerText =
+      "Welcome, " + currentUser.username;
+  }
+}
+
+checkLogin();
+
+function logout() {
+  localStorage.removeItem("user");
+  currentUser = null;
+
+  document.getElementById("authSection").style.display = "block";
+  document.getElementById("userSection").style.display = "none";
+
   alert("Logged out");
 }
