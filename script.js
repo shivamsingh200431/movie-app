@@ -5,7 +5,8 @@ function showLoader() {
 
 function hideLoader() {
   document.getElementById("loader").style.display = "none";
-  document.getElementById("results").style.display = "block";
+  // Clear any inline display style so the CSS grid (#results) can take effect
+  document.getElementById("results").style.display = "";
 }
 
 

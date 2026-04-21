@@ -2,6 +2,8 @@ body {
   font-family: Arial, sans-serif;
   background: #121212;
   color: white;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
@@ -35,11 +37,12 @@ button:hover {
 
 #results {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, 180px);
   gap: 20px;
   padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card {
@@ -48,9 +51,8 @@ button:hover {
   border-radius: 10px;
   transition: transform 0.2s;
   text-align: center;
-
-  width: 180px;        /* 👈 FIX */
-  margin: 0 auto;      /* 👈 center inside grid */
+  width: 180px;
+  box-sizing: border-box;
 }
 
 .card:hover {
