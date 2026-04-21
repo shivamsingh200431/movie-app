@@ -19,7 +19,7 @@ if (input.trim() === "") {
   return;
 }
 
-  resultsDiv.innerHTML = "<p>Loading...</p>";
+  showLoader();
 
   const apiKey = "b13ed654";
   const url = `${BASE_URL}/search?q=${input}`;
