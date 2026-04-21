@@ -31,6 +31,17 @@ async function searchMovie() {
 
   showLoader();
 
+  let favoriteIDs = [];
+
+if (currentUser) {
+  const favRes = await fetch(
+    `${BASE_URL}/favorites?userId=${currentUser._id}`
+  );
+  const favData = await favRes.json();
+
+  favoriteIDs = favData.map(movie => movie.imdbID);
+}
+
   const url = `${BASE_URL}/search?q=${input}`;
 
   try {
@@ -51,9 +62,10 @@ async function searchMovie() {
           <h3>${movie.Title}</h3>
           <p>${movie.Year}</p>
 
-          <button onclick='addToFavorites(${JSON.stringify(movie)}, this)'>
-            ❤️ Add
-          </button>
+          ${favoriteIDs.includes(movie.imdbID)
+  ? `<button disabled>✅ Added</button>`
+  : `<button onclick='addToFavorites(${JSON.stringify(movie)}, this)'>❤️ Add</button>`
+}
         </div>
         `;
       });
