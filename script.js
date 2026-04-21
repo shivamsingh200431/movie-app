@@ -45,7 +45,7 @@ if (input.trim() === "") {
     <h3>${movie.Title}</h3>
     <p>${movie.Year}</p>
 
-    <button onclick='addToFavorites(${JSON.stringify(movie)})'>
+    <button onclick='addToFavorites(${JSON.stringify(movie)}, this)'>
       ❤️ Add
     </button>
   </div>
@@ -103,28 +103,31 @@ function goBack() {
 
 
 
-async function addToFavorites(movie) {
+async function addToFavorites(movie, button) {
   if (!currentUser) {
     alert("Please login first");
     return;
   }
 
   const res = await fetch(`${BASE_URL}/addFavorite`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    movie: movie,
-    userId: currentUser._id
-  })
-});
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      movie: movie,
+      userId: currentUser._id
+    })
+  });
 
-const data = await res.json();
+  const data = await res.json();
 
-alert(data.message);
+  alert(data.message);
+
+  // 👇 UI update
+  button.innerText = "✅ Added";
+  button.disabled = true;
 }
-
 
                             // Show Favorites
 
