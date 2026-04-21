@@ -1,3 +1,14 @@
+function showLoader() {
+  document.getElementById("loader").style.display = "block";
+  document.getElementById("results").style.display = "none";
+}
+
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("results").style.display = "block";
+}
+
+
 const BASE_URL =
   window.location.hostname === "localhost"
     ? "http://localhost:5000"
@@ -5,23 +16,20 @@ const BASE_URL =
 
 let currentUser = JSON.parse(localStorage.getItem("user"));
 
+
+                            // Search Movie
+
 async function searchMovie() {
-  
   const input = document.getElementById("searchInput").value;
   const resultsDiv = document.getElementById("results");
 
-    if (!input) {
-  resultsDiv.innerHTML = "<p>Please enter a movie name</p>";
-  return;
-}
-if (input.trim() === "") {
-  resultsDiv.innerHTML = "<p>⚠️ Please enter a movie name</p>";
-  return;
-}
+  if (!input || input.trim() === "") {
+    resultsDiv.innerHTML = "<p>⚠️ Please enter a movie name</p>";
+    return;
+  }
 
   showLoader();
 
-  const apiKey = "b13ed654";
   const url = `${BASE_URL}/search?q=${input}`;
 
   try {
@@ -32,32 +40,31 @@ if (input.trim() === "") {
 
     if (data.Search) {
       data.Search.forEach(movie => {
-        // CARD HTML
-       html += `
+        html += `
+        <div class="card">
+          <img 
+            src="${movie.Poster}" 
+            width="100"
+            onerror="this.onerror=null; this.src='fallback.jpg'"
+          >
+          <h3>${movie.Title}</h3>
+          <p>${movie.Year}</p>
 
-       
-  <div class="card">
-    <img 
-      src="${movie.Poster}" 
-      width="100"
-      onerror="this.onerror=null; this.src='fallback.jpg'"
-    >
-    <h3>${movie.Title}</h3>
-    <p>${movie.Year}</p>
-
-    <button onclick='addToFavorites(${JSON.stringify(movie)}, this)'>
-      ❤️ Add
-    </button>
-  </div>
-`;
+          <button onclick='addToFavorites(${JSON.stringify(movie)}, this)'>
+            ❤️ Add
+          </button>
+        </div>
+        `;
       });
     } else {
       html = "<p>😕 No movies found. Try something else.</p>";
     }
 
     resultsDiv.innerHTML = html;
+    hideLoader();
 
   } catch (error) {
+    hideLoader();
     resultsDiv.innerHTML = "<p>Something went wrong</p>";
     console.error(error);
   }
@@ -125,18 +132,22 @@ async function addToFavorites(movie, button) {
   alert(data.message);
 
   // 👇 UI update
+  if (data.message === "Added to favorites") {
   button.innerText = "✅ Added";
   button.disabled = true;
+}
 }
 
                             // Show Favorites
 
 async function showFavorites() {
+ 
   if (!currentUser) {
     alert("Please login first");
     return;
   }
-
+   
+  showLoader();
   const resultsDiv = document.getElementById("results");
 
   const response = await fetch(
@@ -168,6 +179,7 @@ async function showFavorites() {
   }
 
   resultsDiv.innerHTML = html;
+  hideLoader();
 }
 
                 // Remove from Favorites
@@ -218,25 +230,22 @@ async function login() {
   const data = await res.json();
 
   if (data.user) {
-    currentUser = data.user;
-    localStorage.setItem("user", JSON.stringify(data.user));
-    alert("Logged in!");
-  } else {
-    alert(data.message);
-  }
+  currentUser = data.user;
+  localStorage.setItem("user", JSON.stringify(data.user));
+
   document.getElementById("authSection").style.display = "none";
-document.getElementById("userSection").style.display = "block";
+  document.getElementById("userSection").style.display = "block";
 
-document.getElementById("welcomeText").innerText =
-  "Welcome, " + data.user.username;
+  document.getElementById("welcomeText").innerText =
+    "Welcome, " + data.user.username;
+
+  alert("Logged in!");
+} else {
+  alert(data.message);
+}
 }
 
- // logout 
-function logout() {
-  localStorage.removeItem("user");
-  currentUser = null;
-  alert("Logged out");
-}
+//CHECK LOGIN ON PAGE LOAD
 
 function checkLogin() {
   if (currentUser) {
@@ -249,6 +258,8 @@ function checkLogin() {
 }
 
 checkLogin();
+
+//LOGOUT
 
 function logout() {
   localStorage.removeItem("user");
