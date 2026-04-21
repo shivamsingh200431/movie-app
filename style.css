@@ -2,7 +2,6 @@ body {
   font-family: Arial, sans-serif;
   background: #121212;
   color: white;
-  text-align: center;
 }
 
 h1 {
@@ -38,10 +37,8 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;              /* spacing between cards */
+  gap: 20px;
   padding: 20px;
-  max-width: 1200px;      /* limit width */
-  margin: 0 auto;         /* center container */
 }
 
 .card {
@@ -50,7 +47,7 @@ button:hover {
   width: 180px;
   border-radius: 10px;
   transition: transform 0.2s;
-  text-align: center;
+  flex: 0 0 auto;   /* 👈 IMPORTANT */
 }
 
 .card:hover {
@@ -62,4 +59,8 @@ button:hover {
   height: 250px;
   object-fit: cover;
   border-radius: 5px;
+}
+
+h1, .search-box, #authSection, #userSection {
+  text-align: center;
 }
